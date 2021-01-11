@@ -22,46 +22,37 @@ import com.sample.test.mapper.UserMapper;
 class TestApplicationTests {
 	@Autowired
 	private DataSource ds;
-	
-	@Autowired
-	private UserMapper mapper;
-	
-	@Test
+
+	/* @Autowired private UserMapper mapper; */ 
+
+	@Test 
 	public void testUserMapper() throws Exception{
-		User user = mapper.getLonginInfo("user1");
-		/*
-		 * assertEquals("", user.getUname()); use
-		 */
-	}
-	
+		/*mapper.getLonginInfo("user1");*/
+		/* assertEquals("", user.getUname()); */
+	}	
+
 	@Test
 	void contextLoads() throws SQLException {
-		System.out.println("DS=" + ds);
-		
-		try(Connection conn = ds.getConnection()){
-			System.out.println("test1");
+		try (Connection conn = ds.getConnection()) {
 			assertThat(conn).isInstanceOf(Connection.class);
-			
+
 			assertEquals(100, getLong(conn, "select 100"));
 		}
 	}
 
-
 	private long getLong(Connection conn, String sql) throws SQLException {
 		long result = 0;
-		try (Statement stmt = conn.createStatement()){
+		try (Statement stmt = conn.createStatement()) {
 			ResultSet rs = stmt.executeQuery(sql);
-			if(rs.next()) {
+			if (rs.next()) {
 				result = rs.getLong(1);
 			}
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
-	
-	
-	
+
 }
